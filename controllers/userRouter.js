@@ -17,8 +17,7 @@ userRouter.post('/', async (request, response) => {
         const savedUser = await user.save();
         response.status(201).json(savedUser);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            response.status(400).send('Username must be at least 3 characters long.').end();
+        if (error.name === 'ValidationError') { response.status(400).send('Username or name must be at least 3 characters long.').end(); }
     }
 });
 userRouter.get('/', async (request, response) => {

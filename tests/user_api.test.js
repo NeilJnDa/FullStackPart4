@@ -39,10 +39,11 @@ describe('Create a new user', () => {
             name: 'K',
             password: 'password',
         };
-        await api
+        const res = await api
             .post('/api/users')
             .send(newUser)
             .expect(400);
+        expect(res.error.text).toBe('Username or name must be at least 3 characters long.');
     });
     test('Username less then 3 characters, return 400', async () => {
         const newUser = {
@@ -50,10 +51,11 @@ describe('Create a new user', () => {
             name: 'Kino',
             password: 'password',
         };
-        await api
+        const res = await api
             .post('/api/users')
             .send(newUser)
             .expect(400);
+        expect(res.error.text).toBe('Username or name must be at least 3 characters long.');
     });
     test('Password less then 3 characters, return 400', async () => {
         const newUser = {
@@ -61,10 +63,11 @@ describe('Create a new user', () => {
             name: 'Kino',
             password: 'pa',
         };
-        await api
+        const res = await api
             .post('/api/users')
             .send(newUser)
             .expect(400);
+        expect(res.error.text).toBe('Password must be at least 3 characters long.');
     });
     test('Name already exists, return 400', async () => {
         const usersAtStart = await helper.usersInDb();
@@ -73,9 +76,10 @@ describe('Create a new user', () => {
             name: 'Kino',
             password: 'password',
         };
-        await api
+        const res = await api
             .post('/api/users')
             .send(newUser)
             .expect(400);
+        expect(res.error.text).toBe('Username must be unique.');
     });
 });
