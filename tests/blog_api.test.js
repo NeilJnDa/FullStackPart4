@@ -52,7 +52,7 @@ test(' verifies that if the likes property is missing from the request, it will 
         .expect(201);
     expect(newBlog.body.likes).toBe(0);
 });
-test.only('verifies that if the title or url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.', async () => {
+test('verifies that if the title or url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.', async () => {
     const blog1 = {
         author: 'Edsger W. Dijkstra',
         url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
@@ -67,6 +67,21 @@ test.only('verifies that if the title or url properties are missing from the req
     await api.post('/api/blogs')
         .send(blog2)
         .expect(400);
+});
+test('Verifies deleting a single blog post resource', async () => {
+    const id = helper.initialBlogs[0]._id;
+    await api.delete(`/api/blogs/${id}`)
+        .expect(200);
+});
+test.only('Verifies deleting a single blog post resource', async () => {
+    const id = helper.initialBlogs[0]._id;
+    const fieldToChange = {
+        likes: 12,
+    };
+    const changedBlog = await api.put(`/api/blogs/${id}`)
+        .send(fieldToChange)
+        .expect(200);
+    expect(changedBlog.body.likes).toBe(12);
 });
 afterAll(() => {
     mongoose.connection.close();
