@@ -73,7 +73,7 @@ test('Verifies deleting a single blog post resource', async () => {
     await api.delete(`/api/blogs/${id}`)
         .expect(200);
 });
-test.only('Verifies deleting a single blog post resource', async () => {
+test('Verifies deleting a single blog post resource', async () => {
     const id = helper.initialBlogs[0]._id;
     const fieldToChange = {
         likes: 12,

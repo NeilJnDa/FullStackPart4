@@ -5,22 +5,24 @@ const config = require('./utils/config');
 
 const app = express();
 const blogRouter = require('./controllers/blogRouter');
+const userRouter = require('./controllers/userRouter');
+
 const middleware = require('./utils/middlewares');
 const logger = require('./utils/logger');
 
-logger.info('connecting to ', config.MONGODB_URI);
+const uri = process.env.NODE_ENV === 'test' ? config.MONGODB_URI_TEST : config.MONGODB_URI;
 
-mongoose.connect(config.MONGODB_URI)
+logger.info('connecting to ', uri);
+
+mongoose.connect(uri)
     .then(() => {
         logger.info('connected to MongoDB');
     })
     .then(() => {
         if (process.env.NODE_ENV === 'test') {
             logger.info('Database: test');
-            mongoose.connection.useDb('test');
         } else {
             logger.info('Database: bloglist');
-            mongoose.connection.useDb('bloglist');
         }
     })
     .catch((error) => {
@@ -32,7 +34,7 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use('/api/blogs', blogRouter);
-
+app.use('/api/users', userRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 module.exports = app;
