@@ -14,6 +14,15 @@ mongoose.connect(config.MONGODB_URI)
     .then(() => {
         logger.info('connected to MongoDB');
     })
+    .then(() => {
+        if (process.env.NODE_ENV === 'test') {
+            logger.info('Database: test');
+            mongoose.connection.useDb('test');
+        } else {
+            logger.info('Database: bloglist');
+            mongoose.connection.useDb('bloglist');
+        }
+    })
     .catch((error) => {
         logger.error('error connecting to MongoDB:', error.message);
     });

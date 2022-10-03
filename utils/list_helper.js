@@ -1,4 +1,3 @@
-const { countBy } = require('lodash');
 const _ = require('lodash');
 
 const dummy = (blogs) => 1;
