@@ -9,6 +9,7 @@ const initialBlogs = [
         url: 'https://reactpatterns.com/',
         likes: 7,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
     },
     {
         _id: '5a422aa71b54a676234d17f8',
@@ -17,6 +18,8 @@ const initialBlogs = [
         url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
         likes: 5,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
+
     },
     {
         _id: '5a422b3a1b54a676234d17f9',
@@ -25,6 +28,8 @@ const initialBlogs = [
         url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
         likes: 12,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
+
     },
     {
         _id: '5a422b891b54a676234d17fa',
@@ -33,6 +38,8 @@ const initialBlogs = [
         url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
         likes: 10,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
+
     },
     {
         _id: '5a422ba71b54a676234d17fb',
@@ -41,6 +48,8 @@ const initialBlogs = [
         url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
         likes: 0,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
+
     },
     {
         _id: '5a422bc61b54a676234d17fc',
@@ -49,18 +58,30 @@ const initialBlogs = [
         url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
         likes: 2,
         __v: 0,
+        user: '633b7ea89214f16decb4e5ea',
+
     },
 ];
 const initialUsers = [
     {
+        _id: '633b7ea89214f16decb4e5ea',
         username: 'Neko',
         name: 'Jinda Li',
         passwordHash: '123',
+        blogs: [
+            '5a422a851b54a676234d17f7',
+            '5a422b891b54a676234d17fa',
+        ],
     },
     {
+        _id: '633b7edd9214f16decb4e5eb',
         username: 'Mimi',
         name: 'Dante',
         passwordHash: 'AVC',
+        blogs: [
+            '5a422a851b54a676234d17f7',
+            '5a422b891b54a676234d17fa',
+        ],
     },
 ];
 const usersInDb = async () => {

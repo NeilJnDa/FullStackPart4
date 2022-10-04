@@ -9,7 +9,9 @@ const User = require('../models/user');
 const helper = require('./test_helper');
 
 beforeEach(async () => {
+    await Blog.deleteMany({});
     await User.deleteMany({});
+    await Blog.insertMany(helper.initialBlogs);
     await User.insertMany(helper.initialUsers);
 });
 afterAll(async () => {
@@ -81,5 +83,17 @@ describe('Create a new user', () => {
             .send(newUser)
             .expect(400);
         expect(res.error.text).toBe('Username must be unique.');
+    });
+});
+describe('Get request', () => {
+    test('Verify the blogs field is populated', async () => {
+        const users = await api.get('/api/users');
+        users.body.forEach((user) => {
+            user.blogs.forEach((blog) => {
+                expect(blog.id).toBeDefined();
+                expect(blog.url).toBeDefined();
+                expect(blog.title).toBeDefined();
+            });
+        });
     });
 });

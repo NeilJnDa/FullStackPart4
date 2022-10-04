@@ -5,9 +5,16 @@ const User = require('../models/user');
 userRouter.post('/', async (request, response) => {
     try {
         const { username, name, password } = request.body;
-        if (password.length < 3) { response.status(400).send('Password must be at least 3 characters long.').end(); }
+        // Check password Length
+        if (password.length < 3) {
+            response.status(400).send('Password must be at least 3 characters long.').end();
+        }
         const usernames = (await User.find({})).map((u) => u.username);
-        if (usernames.includes(username)) { response.status(400).send('Username must be unique.').end(); }
+        // Check username uniqueness
+        if (usernames.includes(username)) {
+            response.status(400).send('Username must be unique.').end();
+        }
+        // Generate passwordHash
         const passwordHash = await bcrypt.hash(password, 10);
         const user = new User({
             username,
@@ -21,7 +28,7 @@ userRouter.post('/', async (request, response) => {
     }
 });
 userRouter.get('/', async (request, response) => {
-    const users = await User.find({});
+    const users = await User.find({}).populate('blogs');
     response.json(users);
 });
 
