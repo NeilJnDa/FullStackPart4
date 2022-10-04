@@ -96,6 +96,18 @@ describe('Post Request: Create a new blog', () => {
             .send(blog2)
             .expect(400);
     });
+    test('verifies if no a token is not provided, it returns 401 Unauthorized ', async () => {
+        const blog = {
+            title: 'Canonical string reduction',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+            likes: 5,
+        };
+        await api.post('/api/blogs')
+            .send(blog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/);
+    });
 });
 describe('Delete request', () => {
     test('Verifies deleting a single blog post resource', async () => {
