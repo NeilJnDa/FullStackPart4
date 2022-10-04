@@ -1,17 +1,7 @@
 const blogRouter = require('express').Router();
-const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
-const getTokenFrom = (request) => {
-    console.log(request.headers);
-    const { authorization } = request.headers;
-    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-        console.log(authorization.substring(7));
-        return authorization.substring(7);
-    }
-    return null;
-};
 blogRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user');
     response.json(blogs);
@@ -19,14 +9,7 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
     try {
         const blog = new Blog(request.body);
-        console.log(blog);
-        const token = getTokenFrom(request);
-        const decodedToken = jwt.verify(token, process.env.SECRET);
-        console.log(decodedToken);
-        if (!decodedToken.id) {
-            return response.status(401).json({ error: 'token missing or invalid' });
-        }
-        blog.user = decodedToken.id;
+        blog.user = request.user;
         const savedBlog = await blog.save();
         response.status(201).json(savedBlog);
     } catch (error) {
@@ -34,8 +17,17 @@ blogRouter.post('/', async (request, response) => {
     }
 });
 blogRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndRemove(request.params.id);
-    response.status(200).end();
+    const blogToRemove = await Blog.findById(request.params.id);
+    // console.log(blogToRemove.user.toString());
+    // console.log(request.user.toString());
+    if (!blogToRemove) {
+        response.status(400).json({ error: 'Can not find the blog by the id' });
+    } else if (blogToRemove.user.toString() === request.user.id.toString()) {
+        await Blog.findByIdAndRemove(request.params.id);
+        response.status(200).end();
+    } else {
+        response.status(401).json({ error: 'You do not have the permission to delete blogs of others.' });
+    }
 });
 blogRouter.put('/:id', async (request, response) => {
     const blog = {

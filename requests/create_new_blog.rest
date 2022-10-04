@@ -1,9 +1,9 @@
 Post http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ill1aSIsImlkIjoiNjMzYjljM2E2ZjZiMDgzYmQ3M2QyOGZkIiwiaWF0IjoxNjY0ODUxMDA4fQ.tiob6tHyMs_1EYEhEYD7gp7yR0e9cnHMXZ5OtHEvVdk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ill1aSIsImlkIjoiNjMzYjljM2E2ZjZiMDgzYmQ3M2QyOGZkIiwiaWF0IjoxNjY0ODg0MjA0fQ.E_YUpvIBJ5aXuPzkdWKDghPckq9F2ScKDZ3UoIK4cqE
 
 {
-    "title": "Authorization: ",
+    "title": "NewBlog",
     "author": "Edsger W. Dijkstra",
     "url": "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
     "likes": 5

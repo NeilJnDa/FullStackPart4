@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
@@ -88,9 +90,20 @@ const usersInDb = async () => {
     const users = await User.find({});
     return users.map((u) => u.toJSON());
 };
+const generateToken = (user) => {
+    const userForToken = {
+        username: user.username,
+        id: user._id,
+    };
+    // It does not check password
+    const token = jwt.sign(userForToken, process.env.SECRET);
+
+    return token.toString();
+};
 
 module.exports = {
     initialBlogs,
     initialUsers,
     usersInDb,
+    generateToken,
 };
